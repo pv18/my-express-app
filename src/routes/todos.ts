@@ -1,16 +1,23 @@
-import { Router } from 'express'
-import { createTodo, deleteTodo, getAllTodos, getTodoById, updateTodo } from '../controllers/todos';
+import { Router } from 'express';
+import {
+  createTodo,
+  deleteTodo,
+  getAllTodos,
+  getTodoById,
+  updateTodo,
+} from '../controllers/todos';
+import { hasValidId } from '../middlewares/has-valid-id';
 
 const router = Router();
 
 router.get('/', getAllTodos);
 
-router.get('/:id', getTodoById);
+router.get('/:id', [hasValidId], getTodoById);
 
 router.post('/', createTodo);
 
-router.put('/:id', updateTodo)
+router.put('/:id', [hasValidId], updateTodo);
 
-router.delete('/:id', deleteTodo)
+router.delete('/:id', [hasValidId], deleteTodo);
 
 export default router;
