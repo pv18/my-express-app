@@ -6,18 +6,22 @@ import {
   getTodoById,
   updateTodo,
 } from '../controllers/todos';
-import { hasValidId } from '../middlewares/has-valid-id';
+import { validateParamId } from '../validators/params';
+import {
+  validateTodoBody,
+  validateUpdateTodoParams,
+} from '../validators/todos';
 
 const router = Router();
 
 router.get('/', getAllTodos);
 
-router.get('/:id', [hasValidId], getTodoById);
+router.get('/:id', validateParamId, getTodoById);
 
-router.post('/', createTodo);
+router.post('/', validateTodoBody, createTodo);
 
-router.put('/:id', [hasValidId], updateTodo);
+router.put('/:id', [validateParamId, validateUpdateTodoParams], updateTodo);
 
-router.delete('/:id', [hasValidId], deleteTodo);
+router.delete('/:id', validateParamId, deleteTodo);
 
 export default router;
